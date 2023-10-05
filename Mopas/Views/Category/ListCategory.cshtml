@@ -1,0 +1,34 @@
+﻿@model IEnumerable<Category>
+@{
+    ViewData["Title"] = "Categories";
+}
+
+
+
+<div class="row">
+    <div class="col-8 offset-2">
+        <h1 class="display-4 border-bottom text-center pb-2"> Categories</h1>
+        <a class="btn btn-primary" asp-controller="category" asp-action="createcategory">Kategori Ekle</a>
+        <table class="table table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Category Name</th>
+                    <th>Delete</th>
+                    <th>Update</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Category item in Model)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.CategoryName</td>
+                        <td><a class="btn btn-danger" asp-action="DeleteCategory" asp-route-id="@item.Id">Sil</a></td>
+                        <td><a class="btn btn-success" asp-action="UpdateCategory" asp-route-id="@item.Id">Güncelle</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
