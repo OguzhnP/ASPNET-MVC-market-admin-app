@@ -1,12 +1,11 @@
 ﻿using Mopas.Entities;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Mopas.Models
 {
     public class SalesReportViewModel
     {
+        public int Id { get; set; }
         [Required]
         [StringLength(30)]
         public string SalesName { get; set; }
@@ -20,9 +19,9 @@ namespace Mopas.Models
         public decimal SalesQuantity { get; set; }
 
         [Display(Name = "Selected Products")]
-        public List<int> SelectedProductIds { get; set; } // Seçilen Product'ların Id'leri
+        public List<int> SelectedProductIds { get; set; }  
 
-        public ICollection<Product> Products { get; set; } // Tüm Product'lar için liste
+        public ICollection<Product> Products { get; set; } 
 
         public SalesReportViewModel()
         {

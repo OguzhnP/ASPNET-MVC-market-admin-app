@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SalesReport>
+﻿@model IEnumerable<SalesReportViewModel>
 @{
     ViewData["Title"] = "Sales Reports";
 }
@@ -18,7 +18,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (SalesReport item in Model)
+                @foreach (SalesReportViewModel item in Model)
                 {
                     <tr>
                         <td>@item.Id</td>
@@ -27,7 +27,7 @@
                         <td>
                             <div class="btn btn-group">
                                 <a class="btn btn-primary" asp-action="Get" asp-route-id="@item.Id">Görüntüle</a>
-                                <a class="btn btn-success" asp-action="UpdateCategory" asp-route-id="@item.Id">Güncelle</a>
+                                <a class="btn btn-success" asp-action="UpdateSalesReport" asp-route-id="@item.Id">Güncelle</a>
                                 <a class="btn btn-danger" asp-action="DeleteSaleReport" asp-route-id="@item.Id">Sil</a>
                             </div>
 

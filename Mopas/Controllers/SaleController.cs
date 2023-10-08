@@ -21,13 +21,27 @@ namespace Mopas.Controllers
         {
             var salesReports = _context.SalesReports;
 
-            return View(salesReports);
+            List<SalesReportViewModel> salesReportsViewModel = new List<SalesReportViewModel>();
+
+            foreach (var item in salesReports)
+            {
+                salesReportsViewModel.Add(new SalesReportViewModel
+                {
+                    Id = item.Id,
+                    SalesName = item.SalesName,
+                    Products = item.Products,
+                    SalesDate = item.SalesDate,
+                    SalesQuantity = item.SalesQuantity,
+                });
+            }
+
+            return View(salesReportsViewModel);
         }
 
         public IActionResult Get([FromRoute(Name = "id")] int id)
         {
             var salesReport = _context.SalesReports
-                .Include(sr => sr.Products)  
+                .Include(sr => sr.Products)
                 .FirstOrDefault(sr => sr.Id == id);
 
             if (salesReport == null)
@@ -38,7 +52,7 @@ namespace Mopas.Controllers
             var viewModel = new SalesReportDetailViewModel
             {
                 SalesReport = salesReport,
-                Products = salesReport.Products.ToList()  
+                Products = salesReport.Products.ToList()
             };
 
             return View(viewModel);
@@ -58,7 +72,7 @@ namespace Mopas.Controllers
             var salesReport = new SalesReport
             {
                 SalesName = viewModel.SalesName,
-                SalesDate = viewModel.SalesDate, 
+                SalesDate = viewModel.SalesDate,
             };
 
 
@@ -81,10 +95,10 @@ namespace Mopas.Controllers
         }
 
         [HttpGet]
-        public IActionResult DeleteSaleReport([FromRoute]int id)
+        public IActionResult DeleteSaleReport([FromRoute] int id)
         {
-            var salesReport = _context.SalesReports.SingleOrDefault(sr =>sr.Id == id);
- 
+            var salesReport = _context.SalesReports.SingleOrDefault(sr => sr.Id == id);
+
 
             _context.SalesReports.Remove(salesReport);
             _context.SaveChanges();
@@ -93,6 +107,55 @@ namespace Mopas.Controllers
 
         }
 
+
+
+        public IActionResult UpdateSalesReport([FromRoute] int id)
+        {
+            ViewBag.Products = new SelectList(_context.Products, "Id", "ProductName");
+
+            var saleReport = _context.SalesReports.Include(s => s.Products).SingleOrDefault(x => x.Id == id);
+
+            SalesReportViewModel salesReportsViewModel = new SalesReportViewModel
+            {
+                Id = saleReport.Id,
+                SalesName = saleReport.SalesName,
+                Products = saleReport.Products,
+                SalesDate = saleReport.SalesDate,
+                SalesQuantity = saleReport.SalesQuantity
+            }; 
+            return View(salesReportsViewModel);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateSalesReport(SalesReportViewModel viewModel)
+        {
+
+            decimal newTotalPrice = 0;
+            var salesReport = _context.SalesReports.Include(s => s.Products).SingleOrDefault(x => x.Id == viewModel.Id);
+            salesReport.SalesName = viewModel.SalesName;
+            salesReport.SalesDate = viewModel.SalesDate;
+
+            salesReport.Products.Clear();
+
+            foreach (var productId in viewModel.SelectedProductIds)
+            {
+                var product = await _context.Products.FindAsync(productId);
+                if (product != null)
+                {
+                    salesReport.Products.Add(product);
+                    newTotalPrice += product.Price;
+                }
+            }
+
+            salesReport.SalesQuantity = newTotalPrice;
+
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+
+        }
 
 
     }
