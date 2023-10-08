@@ -39,7 +39,7 @@ namespace Mopas.Controllers
 
 
 
-        public IActionResult ListCategory()
+        public IActionResult Index()
         {
             var categories = _context.Categories;
             return View(categories);
@@ -52,7 +52,7 @@ namespace Mopas.Controllers
 
             _context.Remove(category);
             _context.SaveChanges();
-            return RedirectToAction("ListCategory");
+            return RedirectToAction(nameof(Index));
         }
 
 
@@ -72,8 +72,8 @@ namespace Mopas.Controllers
                 category.Id = model.Id;
 
                 _context.SaveChanges();
-          
-            return RedirectToAction("ListCategory");
+
+            return RedirectToAction(nameof(Index));
         }
 
 

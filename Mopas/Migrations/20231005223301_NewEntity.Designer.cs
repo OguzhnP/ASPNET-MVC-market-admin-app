@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Mopas.Entities;
 
@@ -11,9 +12,10 @@ using Mopas.Entities;
 namespace Mopas.Migrations
 {
     [DbContext(typeof(MopasDbContext))]
-    partial class MopasDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231005223301_NewEntity")]
+    partial class NewEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

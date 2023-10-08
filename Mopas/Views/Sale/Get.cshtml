@@ -1,0 +1,17 @@
+﻿@model SalesReport
+
+
+
+
+
+
+
+
+
+<div class="row">
+    <div class="col-8 offset-2">
+        <h1 class="display-4 border-bottom text-center pb-2">@Model.SalesName </h1>
+        <h5>Satış zamanı : @Model.SalesDate</h5>
+        <h5>Satış tutarı : @Model.SalesQuantity.ToString("c")</h5>
+    </div>
+</div>

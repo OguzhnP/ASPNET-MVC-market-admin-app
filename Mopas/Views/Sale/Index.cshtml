@@ -1,0 +1,40 @@
+﻿@model IEnumerable<SalesReport>
+@{
+    ViewData["Title"] = "Sales Reports";
+}
+
+
+
+<div class="row">
+    <div class="col-8 offset-2">
+        <h1 class="display-4 border-bottom text-center pb-2"> Sales Reports</h1>
+       <a class="btn btn-primary" asp-controller="" asp-action="">Satış Ekle</a>
+        <table class="table table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Sales Name</th>
+                    <th>Operations</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (SalesReport item in Model)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.SalesName</td>
+
+                        <td>
+                            <div class="btn btn-group">
+                                <a class="btn btn-primary" asp-action="Get" asp-route-id="@item.Id">Görüntüle</a>
+                                <a class="btn btn-success" asp-action="UpdateCategory" asp-route-id="@item.Id">Güncelle</a>
+                                <a class="btn btn-danger" asp-action="DeleteCategory" asp-route-id="@item.Id">Sil</a>
+                            </div>
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

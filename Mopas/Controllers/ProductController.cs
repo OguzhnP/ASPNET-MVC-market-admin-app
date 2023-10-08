@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using Mopas.Entities;
 using Mopas.Models;
 
@@ -17,7 +16,7 @@ namespace Mopas.Controllers
             _context = context;
         }
 
-        public IActionResult ListProduct()
+        public IActionResult Index()
         {
             var products = _context.Products;
              
@@ -49,7 +48,7 @@ namespace Mopas.Controllers
                 _context.Products.Add(product);
                 _context.SaveChanges();
             }
-            return RedirectToAction(nameof(ListProduct));
+            return RedirectToAction(nameof(Index));
         }
 
 
@@ -60,7 +59,7 @@ namespace Mopas.Controllers
 
             _context.Remove(product);
             _context.SaveChanges();
-            return RedirectToAction("ListProduct");
+            return RedirectToAction(nameof(Index));
         }
 
 
@@ -88,7 +87,7 @@ namespace Mopas.Controllers
 
             _context.SaveChanges();
 
-            return RedirectToAction("ListProduct");
+            return RedirectToAction(nameof(Index));
         }
     }
 }
