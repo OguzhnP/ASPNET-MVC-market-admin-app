@@ -14,5 +14,12 @@ namespace Mopas.Entities
         public ICollection<Product>  Products { get; set; }
 
         public decimal SalesQuantity { get; set; }
+
+        public SalesReport()
+        { 
+            Products = new List<Product>();
+        }
+
+
     }
 }
