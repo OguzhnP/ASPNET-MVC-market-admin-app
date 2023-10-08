@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Mopas.Entities;
 using Mopas.Models;
 
@@ -25,8 +26,22 @@ namespace Mopas.Controllers
 
         public IActionResult Get([FromRoute(Name = "id")] int id)
         {
-            var salesReport = _context.SalesReports.Find(id);
-            return View(salesReport);
+            var salesReport = _context.SalesReports
+                .Include(sr => sr.Products)  
+                .FirstOrDefault(sr => sr.Id == id);
+
+            if (salesReport == null)
+            {
+                return NotFound();
+            }
+
+            var viewModel = new SalesReportDetailViewModel
+            {
+                SalesReport = salesReport,
+                Products = salesReport.Products.ToList()  
+            };
+
+            return View(viewModel);
         }
 
 
@@ -65,11 +80,20 @@ namespace Mopas.Controllers
 
         }
 
+        [HttpGet]
+        public IActionResult DeleteSaleReport([FromRoute]int id)
+        {
+            var salesReport = _context.SalesReports.SingleOrDefault(sr =>sr.Id == id);
+ 
+
+            _context.SalesReports.Remove(salesReport);
+            _context.SaveChanges();
+
+            return RedirectToAction(nameof(Index));
+
+        }
 
 
 
     }
-
-
-
 }

@@ -1,17 +1,26 @@
-﻿@model SalesReport
+﻿@model SalesReportDetailViewModel
 
-
-
-
-
-
-
+ 
 
 
 <div class="row">
     <div class="col-8 offset-2">
-        <h1 class="display-4 border-bottom text-center pb-2">@Model.SalesName </h1>
-        <h5>Satış zamanı : @Model.SalesDate</h5>
-        <h5>Satış tutarı : @Model.SalesQuantity.ToString("c")</h5>
+        <h1 class="display-4">Sales Report Details</h1>
+        <hr />
+        <p><strong>Sales Name:</strong> @Model.SalesReport.SalesName</p>
+        <p><strong>Sales Date:</strong> @Model.SalesReport.SalesDate</p>
+        <p><strong>Sales Quantity:</strong> @Model.SalesReport.SalesQuantity.ToString("c")</p>
+        <hr />
+
+        <h2 class="display-6">Products</h2>
+        <ul class="list-group">
+            @foreach (var product in Model.Products)
+            {
+            <li class="list-group-item" >@product.ProductName - @product.Price.ToString("c")</li>
+            }
+        </ul>
     </div>
 </div>
+
+
+  
